@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Customer Insight Analyzer</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #9adeeb;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 450px;
+            margin: 60px auto;
+            background: #9a9090;
+            padding: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border-radius: 12px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        textarea {
+            width: 100%;
+            height: 120px;
+            padding: 12px;
+            border: 1px solid #282424;
+            font-size: 14px;
+            border-radius: 8px;
+            resize: vertical;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background: #4a8af4;
+            color: rgb(237, 162, 162);
+            border: none;
+            margin-top: 15px;
+            font-size: 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background: #2e6fe3;
+        }
+
+        .result-box {
+            background: #a0c1ec;
+            padding: 18px;
+            margin-top: 20px;
+            border-radius: 8px;
+            white-space: pre-wrap;
+            font-family: monospace;
+            font-size: 14px;
+            border: 1px solid #313a43;
+        }
+    </style>
+
+</head>
+<body>
+
+    <div class="container">
+        <h2>Customer Insight Analyzer</h2>
+
+        <textarea id="reviews" placeholder="Enter customer reviews...&#10;Example:&#10;I love the new feature, but the UI is slow."></textarea>
+
+        <button onclick="analyze()">Analyze</button>
+
+        <div id="output" class="result-box">Result will appear here...</div>
+    </div>
+
+
+
+<script>
+async function analyze() {
+    const reviews = document.getElementById("reviews").value.split("\n");
+
+    const response = await fetch("/analyze", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ reviews })
+    });
+
+    const data = await response.json();
+
+    
+    document.getElementById("output").textContent =
+        JSON.stringify(data, null, 2);
+}
+</script>
+
+</body>
+</html>
